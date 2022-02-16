@@ -1,4 +1,10 @@
-export default function Button({ className, size, type, children, ...props }) {
+export default function Button({
+  className,
+  size,
+  variant,
+  children,
+  ...props
+}) {
   const style = {
     primary: "bg-blue-700 hover:bg-blue-800",
     warning: "bg-yellow-500 hover:bg-orange-400",
@@ -14,7 +20,7 @@ export default function Button({ className, size, type, children, ...props }) {
   return (
     <button
       className={`text rounded-lg text-white font-bold shadow 
-      ${sizes[size || "md"]} ${style[type || "primary"]} ${className}`}
+      ${sizes[size || "md"]} ${style[variant || "primary"]} ${className}`}
       {...props}
     >
       {children}

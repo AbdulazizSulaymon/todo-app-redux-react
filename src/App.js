@@ -1,7 +1,6 @@
 import { Provider } from "react-redux";
-import "./App.css";
-import store from "./redux";
-import TodoApp from "./pages/TodoApp";
+import store from "@redux/store";
+import TodoApp from "@pages/TodoApp";
 
 function App() {
   return (
