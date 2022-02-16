@@ -9,21 +9,21 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { EDIT_TASK, REMOVE_TASK } from "@types";
 import Button from "@miniComponents/Button";
+import { dispatch } from "@redux/store";
+import { editTask, removeTask } from "@actions/todos";
 
-const TaskItem = ({ index, value, ...props }) => {
+const TaskItem = ({ listIndex, index, value, ...props }) => {
   const [isEdit, setEdit] = useState(false);
   const [text, setText] = useState(value.title);
   const refText = useRef();
 
-  const dispatch = useDispatch();
-
-  const editTask = () => {
+  const handleEdit = () => {
     setEdit(false);
-    dispatch({ type: EDIT_TASK, payload: { index, text } });
+    editTask(listIndex, index, text);
   };
 
-  const removeTask = (index) => {
-    dispatch({ type: REMOVE_TASK, payload: index });
+  const handleRemove = (index) => {
+    removeTask(listIndex, index);
   };
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const TaskItem = ({ index, value, ...props }) => {
       <div>
         {isEdit ? (
           <>
-            <Button className={"mr-2"} size={"sm"} onClick={editTask}>
+            <Button className={"mr-2"} size={"sm"} onClick={handleEdit}>
               <FontAwesomeIcon icon={faCheck} />
             </Button>
             <Button
@@ -72,7 +72,11 @@ const TaskItem = ({ index, value, ...props }) => {
             <FontAwesomeIcon icon={faEdit} />
           </Button>
         )}
-        <Button variant="danger" size={"sm"} onClick={() => removeTask(index)}>
+        <Button
+          variant="danger"
+          size={"sm"}
+          onClick={() => handleRemove(index)}
+        >
           <FontAwesomeIcon icon={faTrash} />
         </Button>
       </div>

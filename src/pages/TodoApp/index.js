@@ -1,25 +1,10 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import Button from "@miniComponents/Button";
-import { ADD_TASK, TOGGLE_THEME } from "@types";
-import {
-  TaskItem,
-  ListContainer,
-  TaskList,
-  Header,
-  AddForm,
-  // {Button}
-} from "@components";
+import { ListContainer, TaskList, Header, AddForm } from "@components";
+import { addTask, addList } from "@actions/todos";
 
 export default function TodoApp() {
-  const tasks = useSelector((state) => state.todos.tasks);
-
-  const dispatch = useDispatch();
-
-  const addTask = (value) => {
-    dispatch({ type: ADD_TASK, payload: value });
-  };
+  const lists = useSelector((state) => state.todos.lists);
 
   return (
     <div className="container py-8 px-2 dark:bg-slate-700">
@@ -27,10 +12,22 @@ export default function TodoApp() {
 
       <h1 className="text-5xl text-center ">Todo App</h1>
 
-      <ListContainer>
-        <AddForm submit={addTask} placeholder="Write new task" />
-        <TaskList tasks={tasks} />
-      </ListContainer>
+      <div className="flex items-start gap-5">
+        {lists.map((list, index) => (
+          <ListContainer key={index}>
+            <p>{list.title}</p>
+            <AddForm
+              submit={(value) => addTask(index, value)}
+              placeholder="Write new task"
+            />
+            <TaskList listIndex={index} tasks={list.tasks} />
+          </ListContainer>
+        ))}
+        <ListContainer>
+          {/* <p>,</p> */}
+          <AddForm submit={(v) => addList(v)} placeholder="Add new list" />
+        </ListContainer>
+      </div>
     </div>
   );
 }
